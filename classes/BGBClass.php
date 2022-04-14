@@ -61,6 +61,7 @@ class BGBClass {
         $url = 'http://' . BGB_HOST . ':8080/bgbilling/executer?user='.BGB_USER.
                 '&pswd='.BGB_PASSWORD.'&module=sqleditor&base=main&action=SQLEditor&sql='. urlencode($query);
         $result = simplexml_load_file($url);
+        $contract = new stdClass();
         $contract->id = intval($result->table->data->row['row0']);
         $contract->status = intval($result->table->data->row['row1']);
         $contract->scid = intval($result->table->data->row['row2']);

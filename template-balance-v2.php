@@ -126,7 +126,7 @@ function getHTML($cid, $status, $scid) {
         default:
             $htmlTariff = BGBClass::getContractTariff($cid);
             $monthCost = BGBClass::getTariffCost($htmlTariff);
-            $htmlBalance = ($scid == 0) ? BGBClass::getCurrentBalance($cid) :
+            $htmlBalance = ($scid < 1) ? BGBClass::getCurrentBalance($cid) :
                 BGBClass::getCurrentBalance($scid);
             $sum = ($status == 3) ? $monthCost + $htmlBalance * (-1) : $monthCost;
             switch ($status) {
@@ -150,7 +150,7 @@ function getHTML($cid, $status, $scid) {
             $htmlAddress = preg_replace('/(\d{0,6}, г. Кумертау, )?(, \d* под.)?(, \d* эт\.)?/', '',
                 BGBClass::getContractParameter($cid, 12)->title);
             $htmlSubscriber = getHidenSubscriber($cid);
-            $htmlPayCode = ($scid == 0) ? 1000000000+$cid : 1000000000+$scid;
+            $htmlPayCode = ($scid < 1) ? 1000000000+$cid : 1000000000+$scid;
             $htmlQR = getQR($htmlPayCode, $sum, $htmlAddress);
             $html = sprintf('<p>Абонент: %s</p><p>Адрес: %s</p><p>Статус 
                 договора: %s</p><p>Тарифный план: %s</p><p>Баланс: %s</p><p>Код 
@@ -164,7 +164,7 @@ function getHTML($cid, $status, $scid) {
     return $html;
 }
 
-$ip = filter_input(INPUT_SERVER, 'REMOTE_ADDR');
+$ip = filter_input(INPUT_GET, 'ip') ?? filter_input(INPUT_SERVER, 'REMOTE_ADDR');
 $ipOctets = explode('.', $ip);
 $ipOctet3 = implode('.', array_slice($ipOctets, 0, 3));
 
