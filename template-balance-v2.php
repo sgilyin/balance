@@ -64,7 +64,7 @@ WHERE id15.host='$switch' AND idps15.dateTo IS NULL AND idps15.port=$port
 SELECT is15.contractId id, c.status status, c.scid scid
 FROM inet_serv_15 is15
 LEFT JOIN contract c ON c.id=is15.contractId
-WHERE is15.title REGEXP '^\[(\]?$ip\[)\]?$'
+WHERE is15.dateTo IS NULL AND is15.title REGEXP '^\[(\]?$ip\[)\]?$'
 ";
             $contract = BGBClass::sqlQuery($query);
             break;
@@ -73,7 +73,7 @@ WHERE is15.title REGEXP '^\[(\]?$ip\[)\]?$'
 SELECT is15.contractId id, c.status status, c.scid scid
 FROM inet_serv_15 is15
 LEFT JOIN contract c ON c.id=is15.contractId
-WHERE is15.title REGEXP '^\[(\]?$ip-|-$ip\[)\]?$'
+WHERE is15.dateTo IS NULL AND is15.title REGEXP '^\[(\]?$ip-|-$ip\[)\]?$'
 ";
             $contract = BGBClass::sqlQuery($query);
             break;
